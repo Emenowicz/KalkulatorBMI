@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Kalkulator BMI</string>
+    <string name="weightPrompt">Masa: </string>
+    <string name="heightPrompt">Wzrost: </string>
+    <string name="submitText">Oblicz</string>
+    <string name="resultText">Twój wynik to: </string>
+    <string name="resultList">\u003C= 16,0 – wygłodzenie\n16,0–16,99 – wychudzenie\n17,0–18,49 – niedowaga\n18,5–24,99 – wartość prawidłowa\n25,0–29,99 – nadwaga\n30,0–34,99 – I stopień otyłości\n35,0–39,99 – II stopień otyłości (otyłość kliniczna)\n>= 40,0 – III stopień otyłości (otyłość skrajna)</string>
+    <string-array name="heightUnits">
+        <item>cm</item>
+        <item>ft</item>
+    </string-array>
+    <string-array name="weightUnits">
+        <item>kg</item>
+        <item>lb</item>
+    </string-array>
+</resources>

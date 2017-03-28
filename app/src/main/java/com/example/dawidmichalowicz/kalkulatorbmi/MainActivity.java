@@ -42,6 +42,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
+        if(savedInstanceState!=null) {
+            String savedResult = savedInstanceState.getString("result");
+            resultTV.setText(savedResult);
+        }
+
         ArrayAdapter<CharSequence> hAdapter = ArrayAdapter.createFromResource(this, R.array.heightUnits, android.R.layout.simple_spinner_item);
         hAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         hUnitSpinner.setAdapter(hAdapter);
@@ -76,10 +81,16 @@ public class MainActivity extends AppCompatActivity {
                 result = counter.countBMI(weight, height);
                 resultTV.setText(new DecimalFormat("0.00").format(result));
         } catch (Exception e){
-//            resultTV.setText("");
+            resultTV.setText("");
             Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
         }
         Utils.hideSoftKeyboard(this);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("result",resultTV.getText().toString());
     }
 
     private void loadDataFromETs() {

@@ -2,6 +2,8 @@ package com.example.dawidmichalowicz.kalkulatorbmi;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -31,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.resultTVnum)
     TextView resultTV;
 
+
     private float weight;
     private float height;
     private int select;
@@ -54,6 +57,13 @@ public class MainActivity extends AppCompatActivity {
         ArrayAdapter<CharSequence> wAdapter = ArrayAdapter.createFromResource(this, R.array.weightUnits, android.R.layout.simple_spinner_item);
         wAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         wUnitSpinner.setAdapter(wAdapter);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.options,menu);
+        return true;
     }
 
     @OnItemSelected({R.id.hUnitSpinner, R.id.wUnitSpinner})

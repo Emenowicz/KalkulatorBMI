@@ -5,11 +5,9 @@
         android:title="@string/authorText" />
     <item
         android:id= "@+id/saveButton"
-        android:title="@string/saveText"
-        />
+        android:title="@string/saveText" />
     <item
         android:id= "@+id/shareButton"
-        android:title="@string/shareText"
-        />
+        android:title="@string/shareText" />
 
 </menu>

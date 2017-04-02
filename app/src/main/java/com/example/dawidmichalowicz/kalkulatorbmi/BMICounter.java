@@ -6,9 +6,9 @@ package com.example.dawidmichalowicz.kalkulatorbmi;
 
 public class BMICounter {
     static final int maxCm = 250;
-    static final int minCm = 100;
+    static final int minCm = 50;
     static final int maxKg = 300;
-    static final int minKg = 30;
+    static final int minKg = 10;
 
     public float countBMI(float weight, float height) {
         if (isValidWeight(weight)&&isValidHeight(height)){

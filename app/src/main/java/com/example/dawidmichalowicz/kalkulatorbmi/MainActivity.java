@@ -1,9 +1,13 @@
 package com.example.dawidmichalowicz.kalkulatorbmi;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -38,14 +42,20 @@ public class MainActivity extends AppCompatActivity {
     private float height;
     private int select;
     private BMICounter counter = new BMICounter();
+    private float result;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        float resultPref = preferences.getFloat("BMI", 0);
+        if (resultPref != 0) {
+            resultTV.setText(new DecimalFormat("0.00").format(resultPref));
+        }
 
-        if(savedInstanceState!=null) {
+        else if (savedInstanceState != null) {
             String savedResult = savedInstanceState.getString("result");
             resultTV.setText(savedResult);
         }
@@ -60,15 +70,42 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu){
+    public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.options,menu);
+        inflater.inflate(R.menu.options, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent;
+        switch (item.getItemId()) {
+            case R.id.authorButton:
+                intent = new Intent(this, AuthorInfo.class);
+                startActivity(intent);
+                break;
+            case R.id.shareButton:
+                intent = new Intent();
+                intent.setAction(Intent.ACTION_SEND);
+                intent.putExtra(Intent.EXTRA_TEXT, getString(R.string.messageHead) + String.valueOf(new DecimalFormat("0.00").format(result)) + getString(R.string.messageTail));
+                intent.setType("text/plain");
+                startActivity(intent);
+                break;
+            case R.id.saveButton:
+                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.putFloat("BMI", result);
+                editor.apply();
+                Toast.makeText(getApplicationContext(), getText(R.string.saveMessage), Toast.LENGTH_SHORT).show();
+                break;
+
+        }
         return true;
     }
 
     @OnItemSelected({R.id.hUnitSpinner, R.id.wUnitSpinner})
     void onItemSelected(int position) {
-        select=position;
+        select = position;
         if (position == 0) {
             wUnitSpinner.setSelection(position);
             hUnitSpinner.setSelection(position);
@@ -79,18 +116,17 @@ public class MainActivity extends AppCompatActivity {
         Utils.hideSoftKeyboard(this);
     }
 
-
     @OnClick(R.id.countButton)
     void countAndDisplayResult() {
-        float result;
         try {
             loadDataFromETs();
             if (select == 1) {
                 convertUnits();
             }
-                result = counter.countBMI(weight, height);
-                resultTV.setText(new DecimalFormat("0.00").format(result));
-        } catch (Exception e){
+            result = counter.countBMI(weight, height);
+            resultTV.setText(new DecimalFormat("0.00").format(result));
+
+        } catch (Exception e) {
             resultTV.setText("");
             Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
         }
@@ -100,14 +136,14 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putString("result",resultTV.getText().toString());
+        outState.putString("result", resultTV.getText().toString());
     }
 
     private void loadDataFromETs() {
         try {
             weight = Float.parseFloat(weightET.getText().toString());
             height = Float.parseFloat(heightET.getText().toString());
-        } catch (Exception e){
+        } catch (Exception e) {
             throw new IllegalArgumentException("Brak wartości!");
         }
     }
@@ -116,5 +152,6 @@ public class MainActivity extends AppCompatActivity {
         weight = weight * 0.45f;
         height = height * 30.48f;
     }
+
 
 }

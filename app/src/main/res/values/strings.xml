@@ -8,6 +8,11 @@
     <string name="authorText">Autor</string>
     <string name="saveText">Zapisz</string>
     <string name="shareText">Udostępnij</string>
+    <string name="authorInfo">Autor:\nDawid Michałowicz\nStudent informatyki na Politechnice Wrocławskiej</string>
+    <string name="back">Powrót</string>
+    <string name="messageHead">Właśnie obliczyłem swoje BMI które wynosi:&#160; </string>
+    <string name="messageTail">\nIle wynosi twoje?</string>
+    <string name="saveMessage">Wynik zapisany!</string>
     <string-array name="heightUnits">
         <item>cm</item>
         <item>ft</item>
